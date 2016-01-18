@@ -62,42 +62,91 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-bem" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/01/18/hello-world/" class="article-date">
-  <time datetime="2016-01-18T12:25:51.000Z" itemprop="datePublished">2016-01-18</time>
+    <a href="/2016/01/18/bem/" class="article-date">
+  <time datetime="2016-01-18T14:51:52.000Z" itemprop="datePublished">2016-01-18</time>
 </a>
     
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/18/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <p>###BEM是什么？<br>BEM是Block, Element, Modifier。</p>
+<p>一种class的命名习惯。在这种CSS方法学中，一个block就是一个component的顶级抽象，例如一个<code>button: .btn { }</code>。这里的block应该被当作是一个parent，child items 或者elements, 可以被放在block里面，然后 用在block 名字的后面加两个下划线的方式来表明，例如：<code>.btn__price { }</code></p>
+<p>最后，modifier可以用来操作block, 这样我们就可以style 特定的component， 而且不会给完全不相关的module 造成影响。modifier用两个加在block 名字后面的hyphens(连字符)来表示，例如：<code>btn--orange</code>。</p>
+<pre rel="CSS" class=" language-css"><code class=" language-css"><span class="token comment" spellcheck="true">/* Block component */</span>
+<span class="token selector"><span class="token class">.btn</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Element that depends upon the block */</span> 
+<span class="token selector"><span class="token class">.btn__price</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Modifier that changes the style of the block */</span>
+<span class="token selector"><span class="token class">.btn--orange</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span> 
+<span class="token selector"><span class="token class">.btn--big</span> </span><span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+
+<p>如果另一个developer写了这个markup, 并且我们对CSS也不太熟悉，我们仍然有很好的办法去区分哪些classes 是负责什么的和它们之间是怎么互相依赖的。接下来developer就可以build它们自己的components或者修改已经存在的block，去构建它们想要的内容。不用写太多的CSS，用这些在markup里面的class, developer就可以简单的创建许多不同的组合。</p>
+<p>###为什么我们应该考虑BEM？</p>
+<ol>
+<li><p>如果我们想要为一个component创建一个新的style, 我们可以更容易的发现哪个modifiers 和 children 已经存在。我们有可能甚至不需要添加任何的CSS ，因为这里说不定已经有了一个就是我们想要的pre-exsiting modifier。</p>
+</li>
+<li><p>如果我们只读markup，不读CSS，我们也能够快读的get 到 哪个element 依赖于其它哪些东西（在前面的例子里面，我们可以看到，<code>.btn__price</code> depends on <code>.btn</code> 即使我们不知道它现在是做什么的）</p>
+</li>
+</ol>
+<p>设计师和developer可以一致的去命名components，因为团队成员的沟通交流变得更简单了。换句话说，就是BEM给了每个项目成员一个语法说明，每个人都能更容易的看懂它，并且相互分享。</p>
+<p>关于BEM，另一个聪明的部分就是everything is a class and nothing is nested. 这样使得CSS的特性变的非常扁平和单一，这是一个好想法。这意味着你最终不会因为这种差异性和自己斗争。</p>
+<p>###CSS的问题</p>
+<p>当然，如果你打破了BEM的规则也没有人会扭曲你的胳膊。你可以仍然想这样去写一个CSS selector:</p>
+<pre rel="CSS" class=" language-css"><code class=" language-css"><span class="token selector"><span class="token class">.nav</span> <span class="token class">.nav__listItem</span> <span class="token class">.btn--orange</span> </span><span class="token punctuation">{</span>
+  <span class="token property">background-color</span><span class="token punctuation">:</span> green<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+<p>这段代码看起来好像只有一部分BEM在进行，但是它不是BEM。他有嵌套的selectors，并且modifier  甚至没有准确的描述到底发生了什么事。如果我们这样做的话，我们会破坏在BEM中非常有用的扁平特性。</p>
+<p>一个block(例如: .nav) 应该绝不会重写其他block或者modifier的styles (例如：.btn—orange)。否则 这将会使它几乎可以去读整个HTML，并且会让我们分不清这个component到底干了什么。在这个过程中，我们势必会使其他developer对代码库的信心造成巨大的动摇。</p>
+<p>如果你看到下面的markup，你会怎样认为呢？</p>
+<pre rel="HTML" class=" language-markup"><code class=" language-markup"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>a</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>btn<span class="token punctuation">"</span></span> <span class="token attr-name">href</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>http://css-tricks.com<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>nav__listItem<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Item one<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">class</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>nav__listItem<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>Item two<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>a</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+<p>这里的问题是，在一个完全的block里面的一个element，有developer需要的code, 但是child elements 没有像它的parent一样，require一个.nav class，这就造成了格外confusing和不一致的代码库。这是应该不惜任何代价避免的。我们可以总结成以下两个问题：</p>
+<ul>
+<li>绝不重写modifiers 在一个不相关的block里面。</li>
+<li>避免一些不必要的parent elements ，当child 可以很好的存在的时候。</li>
+</ul>
+<p>###不喜欢BEM的<br>或许你不喜欢dobule-underscores 或者 double-dashes。没问题，用其他任何你会坚持使用的特殊字符都可以。</p>
+<p>###Sass 和 BEM<br>你可以写继续enjoy嵌套的Sass写法, 但可以用@at-root得到不嵌套的CSS。</p>
+<pre rel="CSS" class=" language-css"><code class=" language-css"><span class="token comment" spellcheck="true">/* Example Module */</span>
+<span class="token selector"><span class="token class">.btn</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Modifier of the btn class */</span>
+<span class="token selector"><span class="token class">.btn-primary</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Btn Module with State */</span>
+<span class="token selector"><span class="token class">.btn.is-collapsed</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span></code></pre>
+
+<p><br></p>
+<pre rel="CSS" class=" language-css"><code class=" language-css"><span class="token comment" spellcheck="true">/* Example Module */</span>
+<span class="token selector"><span class="token class">.mod</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Part of Module */</span>
+<span class="token selector"><span class="token class">.inner</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Talk Module */</span>
+<span class="token selector"><span class="token class">.talk</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/* Variation of part inside Module */</span>
+<span class="token selector"><span class="token class">.talk</span> <span class="token class">.inner</span> </span><span class="token punctuation">{</span> <span class="token punctuation">}</span></code></pre>
+
+<p>###总结<br>为了wrap things up，我认为很公平的说，虽然BEM没有解决所有我们的问题，但是它对创建可扩展的构造仍然非常的有用，在团队每个人应该有一个清晰的idea关于怎样提高code质量的地方保持了界面。这是因为一个巨大的前端开发不仅仅是在短期内关于解决一个小问题nice tricks ，我们需要协议，pormises和有约束力的社会契约在developers之间，以便我们的代码库可以适应时间的变化。</p>
+<p><a href="https://css-tricks.com/bem-101/" target="_blank" rel="external">原文传送带</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/01/18/hello-world/" data-id="cijjz2sr90000ftkdvzv5qyws" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/01/18/bem/" data-id="cijk38n870000uo8hub07y1oz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -116,9 +165,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -137,7 +200,7 @@
       <ul>
         
           <li>
-            <a href="/2016/01/18/hello-world/">Hello World</a>
+            <a href="/2016/01/18/bem/">(no title)</a>
           </li>
         
       </ul>
